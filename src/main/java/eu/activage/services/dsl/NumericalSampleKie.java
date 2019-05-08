@@ -1,0 +1,134 @@
+package eu.activage.services.dsl;
+
+
+import eu.activage.services.frame.DataFrame;
+import eu.activage.services.frame.DataRow;
+import eu.activage.services.statistics.Observation;
+import eu.activage.services.statistics.Sample;
+import eu.activage.services.statistics.SampleDistribution;
+import eu.activage.services.statistics.SamplingDistributionOfSampleMean;
+import eu.activage.services.testing.TestingOnValue;
+
+/**
+ * Created by xschen on 8/5/2017.
+ * kie for sample which contains only one single numerical variable
+ */
+public class NumericalSampleKie {
+
+   private Sample sample = new Sample();
+   private double sampleMean;
+   private double sampleSd;
+   private int sampleSize;
+
+   private SampleDistribution sampleDistribution = null;
+   private SamplingDistributionOfSampleMean samplingDistributionOfSampleMean = null;
+
+   private final Variable variable;
+
+   public NumericalSampleKie(Variable variable) {
+      this.variable = variable;
+   }
+
+   public NumericalSampleKie fromSampleDistribution(double sampleMean, double sampleSd, int sampleSize) {
+
+      this.sample = null;
+      this.sampleMean = sampleMean;
+      this.sampleSize = sampleSize;
+      this.sampleSd = sampleSd;
+
+      sampleDistribution = new SampleDistribution(sampleMean, sampleSize, sampleSd, groupId());
+      samplingDistributionOfSampleMean = new SamplingDistributionOfSampleMean(sampleMean, sampleSize, sampleSd, groupId());
+      return this;
+   }
+
+   public NumericalSampleKie addObservation(double value){
+      if(sample == null) {
+         throw new RuntimeException("distribution is already provided, cannot add observation");
+      }
+
+      Observation observation = new Observation();
+      observation.setX(value);
+      observation.setGroupId(groupId());
+      sample.add(observation);
+
+      sampleDistribution = null;
+      samplingDistributionOfSampleMean = null;
+
+      return this;
+   }
+
+   public NumericalSampleKie addObservations(DataFrame dataFrame){
+      for(int i=0; i < dataFrame.rowCount(); ++i){
+         DataRow row = dataFrame.row(i);
+         double value = row.getCell(variable.getName());
+         addObservation(value);
+      }
+      return this;
+   }
+
+   public SampleDistribution getSampleDistribution(){
+      if(sampleDistribution == null) {
+         sampleDistribution = new SampleDistribution(sample, groupId());
+      }
+      return sampleDistribution;
+   }
+
+   public SamplingDistributionOfSampleMean getSamplingDistribution(){
+      if(samplingDistributionOfSampleMean == null) {
+         samplingDistributionOfSampleMean = new SamplingDistributionOfSampleMean(getSampleDistribution());
+      }
+      return samplingDistributionOfSampleMean;
+   }
+
+   public Mean mean(){
+      return new Mean(getSamplingDistribution());
+   }
+
+   private String groupId(){
+      return variable.getName();
+   }
+
+   public TestingOnValue test4MeanEqualTo(double mean) {
+      if(sample != null) {
+         TestingOnValue test = new TestingOnValue();
+         SampleDistribution distribution = getSampleDistribution();
+         double xHat = distribution.getSampleMean();
+         double sd = distribution.getSampleSd();
+         int n = distribution.getSampleSize();
+         test.run(xHat, sd, n, mean);
+         return test;
+      } else {
+         TestingOnValue test = new TestingOnValue();
+         test.run(sampleMean, sampleSd, sampleSize, mean);
+         return test;
+      }
+   }
+
+   public double getSampleMean(){
+      return getSampleDistribution().getSampleMean();
+   }
+
+   public double getSampleSd(){
+      return getSampleDistribution().getSampleSd();
+   }
+
+   public double getSampleSize(){
+      return getSampleDistribution().getSampleSize();
+   }
+
+   public double getSampleMin() { return getSampleDistribution().getMin(); }
+
+   public double getSampleMax() { return getSampleDistribution().getMax(); }
+
+   public double getSampleMedian() { return getSampleDistribution().getMedian(); }
+
+   public double getSampleFirstQuartile() { return getSampleDistribution().getFirstQuartile(); }
+
+   public double getSampleThirdQuartile() { return getSampleDistribution().getThirdQuartile(); }
+
+   public void addObservations(double[] values) {
+      for(Double value : values){
+         addObservation(value);
+      }
+   }
+}

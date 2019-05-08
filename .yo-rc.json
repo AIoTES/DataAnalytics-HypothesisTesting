@@ -1,0 +1,37 @@
+{
+  "simlife-bot": {
+    "promptValues": {
+      "packageName": "eu.activage.services"
+    },
+    "simlifeVersion": "4.14.6",
+    "baseName": "simlife",
+    "packageName": "eu.activage.services",
+    "packageFolder": "eu/activage/services",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "enableHibernateCache": false,
+    "websocket": false,
+    "databaseType": "mongodb",
+    "devDatabaseType": "mongodb",
+    "prodDatabaseType": "mongodb",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSocialSignIn": false,
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "f83714e981224760e7da8c04032d6c5c691bd77e",
+    "clientFramework": "angular1",
+    "useSass": false,
+    "clientPackageManager": "yarn",
+    "applicationType": "monolith",
+    "testFrameworks": [
+      "gatling",
+      "cucumber",
+      "protractor"
+    ],
+    "simPrefix": "sim",
+    "enableTranslation": false
+  }
+}

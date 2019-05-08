@@ -1,0 +1,102 @@
+package eu.activage.services.dsl;
+
+
+import eu.activage.services.frame.DataFrame;
+import eu.activage.services.frame.DataRow;
+import eu.activage.services.statistics.Observation;
+import eu.activage.services.statistics.Sample;
+import eu.activage.services.statistics.SampleDistribution;
+import eu.activage.services.statistics.SamplingDistributionOfSampleMean;
+import eu.activage.services.testing.TestingOnValue;
+
+/**
+ * Created by xschen on 8/5/2017.
+ */
+public class PairedSampleKie {
+   private Sample sample = new Sample();
+   private VariablePair variablePair;
+   private SampleDistribution sampleDistribution;
+   private SamplingDistributionOfSampleMean samplingDistribution;
+
+   public PairedSampleKie(VariablePair variablePair) {
+      this.variablePair = variablePair;
+   }
+
+   public PairedSampleKie addObservation(double value1, double value2) {
+      Observation observation = new Observation();
+      observation.setX(value1 - value2);
+      observation.setGroupId(groupId());
+      sample.add(observation);
+      sampleDistribution = null;
+      samplingDistribution = null;
+      return this;
+   }
+
+   private String groupId(){
+      return variablePair.variable1().getName() + " - " + variablePair.variable2().getName();
+   }
+
+   public Mean difference(){
+      SamplingDistributionOfSampleMean sds = getSamplingDistribution();
+      return new Mean(sds);
+   }
+
+   public SampleDistribution getSampleDistribution(){
+      if(sampleDistribution == null) {
+         sampleDistribution = new SampleDistribution(sample, groupId());
+      }
+      return sampleDistribution;
+   }
+
+   public SamplingDistributionOfSampleMean getSamplingDistribution(){
+      if(samplingDistribution == null) {
+         SampleDistribution distribution = getSampleDistribution();
+         samplingDistribution = new SamplingDistributionOfSampleMean(distribution);
+      }
+      return samplingDistribution;
+   }
+
+   public TestingOnValue testDifferenceEqualTo(double mean) {
+      TestingOnValue test = new TestingOnValue();
+      SampleDistribution distribution = getSampleDistribution();
+      double xHat = distribution.getSampleMean();
+      double sd = distribution.getSampleSd();
+      int n = distribution.getSampleSize();
+      test.run(xHat, sd, n, mean);
+      return test;
+   }
+
+
+   public void addObservations(DataFrame dataFrame) {
+      for(int i=0; i < dataFrame.rowCount(); ++i){
+         DataRow row = dataFrame.row(i);
+         addObservation(row.getCell(variablePair.variable1().getName()), row.getCell(variablePair.variable2().getName()));
+      }
+   }
+
+
+   public double getSampleDifferenceMean() {
+      return getSampleDistribution().getSampleMean();
+   }
+
+   public double getSampleDifferenceSd(){
+      return getSampleDistribution().getSampleSd();
+   }
+
+   public int getSampleSize(){
+      return getSampleDistribution().getSampleSize();
+   }
+
+
+   public double getSampleMin() { return getSampleDistribution().getMin(); }
+
+   public double getSampleMax() { return getSampleDistribution().getMax(); }
+
+   public double getSampleMedian() { return getSampleDistribution().getMedian(); }
+
+   public double getSampleFirstQuartile() { return getSampleDistribution().getFirstQuartile(); }
+
+   public double getSampleThirdQuartile() { return getSampleDistribution().getThirdQuartile(); }
+
+
+}
