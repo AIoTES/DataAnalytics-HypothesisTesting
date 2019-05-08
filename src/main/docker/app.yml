@@ -1,7 +1,7 @@
 version: '2'
 services:
     simlife-app:
-        image: registry.insight-centre.org/iot-unit/activage-hypothesis-testing
+        image: docker-activage.satrd.es/hypothesis-testing:0.0.1
         environment:
             - SPRING_PROFILES_ACTIVE=prod,swagger
             - SPRING_DATA_MONGODB_URI=mongodb://simlife-mongodb:27017
