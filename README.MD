@@ -1,4 +1,4 @@
-# Project
+# Hypothesis Testing
 
 ## Development
 
