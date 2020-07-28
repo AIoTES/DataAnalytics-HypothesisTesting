@@ -1,6 +1,12 @@
 # Hypothesis Testing
 
-## Development
+## Getting started / Use
+
+This required section should explain the steps needed to use it. Remember Module is fully (or mostly ) functional code, 
+thus this section should explain interfaces, UIs, procedures and any other action (i.e. configuration) needed to use 
+the module. This section should be targeted to the end user of the module.
+
+## How to build, install, or deploy it
 
 Before you can build this project, you must install and configure the following dependencies on your machine:
 
