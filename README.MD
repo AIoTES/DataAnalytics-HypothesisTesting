@@ -2,9 +2,10 @@
 
 ## Getting started / Use
 
-This required section should explain the steps needed to use it. Remember Module is fully (or mostly ) functional code, 
-thus this section should explain interfaces, UIs, procedures and any other action (i.e. configuration) needed to use 
-the module. This section should be targeted to the end user of the module.
+The Hypothesis Testing component has a pre-configured docker image which will be deployed on your machine on port 4581.
+The full list of APIs which can be consumed by other components and their descriptions can be found in the below link:
+* [API Documentation](https://git.activageproject.eu/Data_Analytics/Hypothesis_Testing/wiki/API+Documentation)
+
 
 ## How to build, install, or deploy it
 
@@ -24,14 +25,9 @@ We use [Gulp](https://gulpjs.com/) as our build system. Install the Gulp command
 
     yarn global add gulp-cli
 
-
-
 [Bower](https://bower.io/) is used to manage CSS and JavaScript dependencies used in this application. You can upgrade dependencies by
 specifying a newer version in [bower.json](bower.json). You can also run `bower update` and `bower install` to manage dependencies.
 Add the `-h` flag on any command to see how you can use it. For example, `bower update -h`.
-
-For further instructions on how to develop with Simlife, have a look at [Using Simlife in development][].
-
 
 3. Install java 8
 4. Install maven
@@ -40,7 +36,8 @@ auto-refreshes when files change on your hard drive.
 
     ./mvnw
     gulp
-## Building for production
+
+### Building for production
 
 To optimize the simlife application for production, run:
 
@@ -52,30 +49,6 @@ To ensure everything worked, run:
     java -jar target/*.war
 
 Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
-
-Refer to [Using Simlife in production][] for more details.
-
-## Testing
-
-To launch your application's tests, run:
-
-    ./mvnw clean test
-
-### Client tests
-
-Unit tests are run by [Karma][] and written with [Jasmine][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
-
-    gulp test
-
-UI end-to-end tests are powered by [Protractor][], which is built on top of WebDriverJS. They're located in [src/test/javascript/e2e](src/test/javascript/e2e)
-and can be run by starting Spring Boot in one terminal (`./mvnw spring-boot:run`) and running the tests (`gulp itest`) in a second one.
-### Other tests
-
-Performance tests are run by [Gatling][] and written in Scala. They're located in [src/test/gatling](src/test/gatling) and can be run with:
-
-    ./mvnw gatling:execute
-
-For more information, refer to the [Running tests page][].
 
 ## Using Docker to simplify development (optional)
 
@@ -98,6 +71,34 @@ Then run:
 
     docker-compose -f src/main/docker/app.yml up -d
 
-For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`simlife docker-compose`)
+## Testing
 
+To launch your application's tests, run:
 
+    ./mvnw clean test
+
+### Client tests
+
+Unit tests are run by [Karma](https://karma-runner.github.io/latest/index.html) and written with [Jasmine](https://jasmine.github.io/). They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
+
+    gulp test
+
+UI end-to-end tests are powered by [Protractor](https://www.protractortest.org/#/), which is built on top of WebDriverJS. They're located in [src/test/javascript/e2e](src/test/javascript/e2e)
+and can be run by starting Spring Boot in one terminal (`./mvnw spring-boot:run`) and running the tests (`gulp itest`) in a second one.
+
+### Other tests
+
+Performance tests are run by [Gatling](https://gatling.io/) and written in Scala. They're located in [src/test/gatling](src/test/gatling) and can be run with:
+
+    ./mvnw gatling:execute
+
+## Further Information
+
+Further information can be found in below links:
+
+* [Hypothesis Testing Wiki](https://git.activageproject.eu/Data_Analytics/Hypothesis_Testing/wiki)
+* [API Documentation](https://git.activageproject.eu/Data_Analytics/Hypothesis_Testing/wiki/API+Documentation)
+
+## License
+    
+The Hypothesis Testing is licensed under [EUPL 1.2](https://eupl.eu/).
