@@ -1,5 +1,12 @@
 # Hypothesis Testing
 
+The Hypothesis Testing API is responsible for providing an access point to other components for performing statistical inference on their data, for example Anova and TTest.
+
+There are two hypothesis testing service available;
+
+**1. Anova** <br />
+**2. T Test**
+
 ## Getting started / Use
 
 The Hypothesis Testing component has a pre-configured docker image which will be deployed on your machine on port 4581.
