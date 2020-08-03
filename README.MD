@@ -71,6 +71,25 @@ Then run:
 
     docker-compose -f src/main/docker/app.yml up -d
 
+### Docker Deployment
+
+This section describes the steps and commands you need to run for deployment of Hypothesis Testing API docker image from Activage docker registry. Follow the below steps to deploy the docker image at your machine.
+
+1. Before running the docker command, you need to have two files listed below at the same directory location. <br /> <br />
+'app.yml' <br /> 'mongodb.yml'
+
+2. Run the following command from command prompt or terminal. This command should run from the directory location where both files are placed, else you need to specify the full path of `app.yml` file. <br /> <br />
+`docker-compose -f app.yml up -d`
+
+3. After running the above command, you can confirm whether the docker image is deployed successfully or not, by clicking on the below link or copy and paste it in your browser. <br /> <br />
+[http://localhost:4581/](http://localhost:4581/#/docs)
+
+To sign in, use 'admin' as username and password.
+
+To stop it and remove the container, run: <br /> <br />
+`docker-compose -f app.yml down`
+
+
 ## Testing
 
 To launch your application's tests, run:
