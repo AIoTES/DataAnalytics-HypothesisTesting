@@ -7,6 +7,9 @@ There are two hypothesis testing service available;
 **1. Anova** <br />
 **2. T Test**
 
+This component can be used for the verification of truth of the formulated hypothesis using one-sample or two-sample statistical tests, such as Anova and t-tests, 
+using the APIs provided.
+
 ## Getting started / Use
 
 The Hypothesis Testing component has a pre-configured docker image which will be deployed on your machine on port 4581.
